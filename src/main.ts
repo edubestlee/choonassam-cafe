@@ -880,16 +880,15 @@ function spawnReceiptModal(receiptDetails) {
 
 // --- BOOKING ENGINE / RESERVATIONS PORTAL ---
 function initReservationsEngine() {
-  const reserveButtons = document.querySelectorAll("button:has(span:contains('Reservations')), button.visit-reservations-btn, a[href='#reservations']");
-  const quickBookBtn = document.querySelector('button.visit-reservations-btn');
-
-  // Since we also have footer contact pointers, let's create a dynamic Modal reservation system
-  const reservationsTrigger = document.querySelector('button:contains("Reservations")') || document.querySelector('.bg-primary:has-text("Reservations")') || document.querySelector('.bg-primary:contains("Reservations")');
-
-  // Let's attach globally to search elements with Reservations text
   document.body.addEventListener("click", (e) => {
-    const textContext = e.target.textContent || e.target.innerText;
-    if (textContext && textContext.toLowerCase().includes("reservations")) {
+    const trigger = (e.target as HTMLElement).closest("button, a");
+    if (!trigger) return;
+
+    const text = (trigger.textContent || "").toLowerCase();
+    const href = trigger.getAttribute("href");
+    const isReservation = text.includes("reserve") || text.includes("reservation") || href === "#reservations";
+
+    if (isReservation) {
       e.preventDefault();
       openBookingModal();
     }
@@ -1084,7 +1083,7 @@ function spawnReservationTicketModal(resObj) {
 
 // --- IMMERSIVE GALLERY LIGHTBOX PANEL ---
 function initGalleryLightbox() {
-  const images = document.querySelectorAll("section:has(h2:contains('GALLERY')) img, section:has(h2:contains('INSTAGRAM')) img");
+  const images = document.querySelectorAll(".image-zoom-container img");
 
   // Keep a pool of all found gallery images to support swipe slides next/prev
   const imgPool = Array.from(images).map(img => {
