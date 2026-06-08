@@ -1,0 +1,6 @@
+{
+  "name": "Lumina Cafe",
+  "description": "Elegant static website for Lumina Cafe - Artisanal Brew & Tranquility",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

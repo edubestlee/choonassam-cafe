@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUMINA CAFE | 루미나 카페 — Artisanal Brew & Tranquility</title>
+    
+    <!-- Google Fonts & Material Outlined Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+    <!-- Compile Tailwind CSS v4 via index.css -->
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed overflow-x-hidden min-h-screen">
+    
+    <!-- Top Nav Bar -->
+    <header class="fixed top-0 w-full z-50 bg-surface/90 dark:bg-zinc-950/80 backdrop-blur-md transition-shadow duration-500 border-b border-outline-variant/10">
+      <div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full max-w-[1440px] mx-auto">
+        
+        <!-- Mobile Sidebar Trigger -->
+        <button id="menu-mobile-btn" class="text-primary dark:text-primary-fixed hover:opacity-75 transition-opacity p-2 cursor-pointer" aria-label="Open Mobile Menu">
+          <span class="material-symbols-outlined text-[26px]">menu</span>
+        </button>
+
+        <!-- Elegant Hero Brand Header -->
+        <a href="#" class="flex flex-col items-center">
+          <h1 class="font-headline font-semibold text-xl md:text-2xl text-primary dark:text-primary-fixed uppercase tracking-[0.25em] transition-colors leading-none">LUMINA</h1>
+          <span class="font-body text-[8px] md:text-[9px] text-[#817570] dark:text-primary-fixed-dim tracking-[0.45em] uppercase mt-1">C A F E</span>
+        </a>
+
+        <!-- Icons Panel (Theme and shopping cart) -->
+        <div class="flex items-center gap-2">
+          
+          <!-- Sun/Moon Theme Toggle Injected here -->
+          <div id="theme-toggle-container"></div>
+          
+          <!-- Shopping Bag Trigger -->
+          <button class="text-primary dark:text-primary-fixed hover:opacity-75 p-2 transition-all duration-300 relative cursor-pointer" data-icon="shopping_bag" aria-label="Open Shopping Bag">
+            <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Side Menu Sidebar (Mobile curtain navigation) -->
+    <div id="drawer-overlay" class="fixed inset-0 z-[60] bg-primary/40 backdrop-blur-sm hidden transition-all duration-500"></div>
+    <div id="drawer" class="fixed left-0 top-0 h-full w-[320px] z-[70] bg-surface dark:bg-zinc-900 border-r border-outline-variant/20 -translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between p-10 font-body">
+      <div class="space-y-12">
+        <div class="flex justify-between items-center border-b border-outline-variant/30 pb-4">
+          <div class="text-left">
+            <h2 class="font-headline text-2xl font-bold text-primary dark:text-primary-fixed uppercase tracking-widest">LUMINA</h2>
+            <p class="font-body text-[9px] text-secondary tracking-widest uppercase mt-0.5">Artisanal Brew</p>
+          </div>
+          <button id="drawer-close-btn" class="text-primary dark:text-primary-fixed hover:opacity-75 p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <nav class="flex flex-col gap-6 text-left">
+          <a class="font-body text-sm font-semibold tracking-[0.2em] uppercase text-primary dark:text-primary-fixed hover:translate-x-2 transition-transform duration-300 pb-2 border-b border-outline-variant/20" href="#experience">The Experience</a>
+          <a class="font-body text-sm tracking-[0.2em] uppercase text-on-surface-variant dark:text-zinc-400 hover:translate-x-2 transition-transform duration-300" href="#menu">Our Menu</a>
+          <a class="font-body text-sm tracking-[0.2em] uppercase text-on-surface-variant dark:text-zinc-400 hover:translate-x-2 transition-transform duration-300" href="#gallery">Gallery</a>
+          <a class="font-body text-sm tracking-[0.2em] uppercase text-on-surface-variant dark:text-zinc-400 hover:translate-x-2 transition-transform duration-300" href="#find-us">Find Us</a>
+          <a class="font-body text-sm tracking-[0.2em] uppercase text-on-surface-variant dark:text-zinc-400 hover:translate-x-2 transition-transform duration-300" href="#reservations">Reservations</a>
+        </nav>
+      </div>
+
+      <div class="text-xs text-left text-secondary dark:text-secondary-fixed-dim border-t border-outline-variant/20 pt-6 space-y-1.5">
+        <p class="font-bold">LUMINA CAFE — Seoul</p>
+        <p class="text-[11px]">Mon - Sun: 10:00 AM - 10:00 PM</p>
+      </div>
+    </div>
+
+    <!-- Active Shopping Bag Drawer (Slide Panel from Right) -->
+    <div id="cart-overlay" class="fixed inset-0 z-[60] bg-primary/45 backdrop-blur-sm hidden transition-all duration-300"></div>
+    <div id="cart-drawer" class="fixed right-0 top-0 h-full w-full sm:w-[440px] z-[70] bg-surface dark:bg-zinc-900 border-l border-outline-variant/20 translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-between font-body overflow-hidden">
+      
+      <!-- Drawer Header -->
+      <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low dark:bg-zinc-950/20">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-primary dark:text-primary-fixed">shopping_bag</span>
+          <h3 class="font-headline font-semibold text-lg text-primary dark:text-primary-fixed tracking-wider uppercase">Shopping Bag</h3>
+        </div>
+        <button id="cart-close-btn" class="text-primary dark:text-primary-fixed hover:opacity-75 p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Scrollable List -->
+      <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+        <!-- Generates dynamically via vanilla main.js -->
+      </div>
+
+      <!-- Drawer Footer Summary -->
+      <div class="p-6 border-t border-outline-variant/30 bg-surface-container-high dark:bg-zinc-950/40 space-y-4 z-10 relative">
+        <div class="space-y-2 text-sm text-on-surface-variant dark:text-zinc-300">
+          <div class="flex justify-between">
+            <span>주문 소계</span>
+            <span class="font-bold text-primary dark:text-primary-fixed">₩<span id="computed-cart-subtotal">0.0</span>k</span>
+          </div>
+          <div class="flex justify-between">
+            <span>수령 세금 (VAT 10%)</span>
+            <span class="font-medium text-emerald-600 dark:text-emerald-400">Included / 면세</span>
+          </div>
+          <div class="flex justify-between text-base font-bold text-primary dark:text-primary-fixed border-t border-outline-variant/40 pt-3 mt-1">
+            <span>최종 합계</span>
+            <span>₩<span id="computed-cart-total">0.0</span>k</span>
+          </div>
+        </div>
+
+        <button id="cart-checkout-trigger" disabled class="w-full bg-primary dark:bg-primary-fixed text-on-primary dark:text-on-primary-fixed p-4 rounded font-label-md uppercase tracking-[0.15em] hover:brightness-110 disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center justify-center gap-2 cursor-pointer shadow">
+          <span class="material-symbols-outlined text-[18px]">credit_card</span>
+          결제 및 주문하기
+        </button>
+      </div>
+
+      <!-- In-Drawer Hidden Checkout Form Slide Node -->
+      <div id="checkout-panel" class="absolute inset-0 bg-surface dark:bg-zinc-900 z-20 flex flex-col justify-between p-6 transform translate-y-0 text-left transition-all duration-300 hidden border-t-2 border-primary">
+        <div class="flex justify-between items-center border-b border-outline-variant/30 pb-4">
+          <span class="font-headline font-bold text-lg text-primary dark:text-primary-fixed uppercase tracking-wider">주문 고객 정보 기입</span>
+          <button id="checkout-close-btn" class="text-primary dark:text-primary-fixed hover:opacity-75 p-1.5 rounded-full cursor-pointer">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <form id="checkout-invoice-form" class="space-y-5 flex-1 overflow-y-auto py-6 no-scrollbar">
+          <div>
+            <label class="font-label-sm text-xs uppercase tracking-wider text-secondary dark:text-secondary-fixed-dim block mb-2">고객 성함 *</label>
+            <input type="text" id="checkout-name" required placeholder="홍길동" class="w-full bg-transparent border-b border-outline focus:border-primary dark:focus:border-primary-fixed focus:outline-none py-2 text-sm text-primary dark:text-primary-fixed">
+          </div>
+          <div>
+            <label class="font-label-sm text-xs uppercase tracking-wider text-secondary dark:text-secondary-fixed-dim block mb-2">테이블 번호 (또는 Takeout) *</label>
+            <input type="text" id="checkout-table" default="테이크아웃" placeholder="바 테이블 3번 / 테이블 7번 / 포장" class="w-full bg-transparent border-b border-outline focus:border-primary dark:focus:border-primary-fixed focus:outline-none py-2 text-sm text-primary dark:text-primary-fixed">
+          </div>
+          <div>
+            <label class="font-label-sm text-xs uppercase tracking-wider text-secondary dark:text-secondary-fixed-dim block mb-2">연락처 *</label>
+            <input type="tel" id="checkout-phone" required placeholder="010-1234-5678" class="w-full bg-transparent border-b border-outline focus:border-primary dark:focus:border-primary-fixed focus:outline-none py-2 text-sm text-primary dark:text-primary-fixed">
+          </div>
+
+          <p class="text-[11px] text-secondary dark:text-zinc-400 leading-normal bg-primary-fixed/20 dark:bg-zinc-800/50 p-3 rounded border border-outline-variant/30">
+            * 주문 시 카운터 포스에 테이블 번호 자동 전송 연동 및 실시간 영외 오더 전송이 매끄럽게 처리됩니다.
+          </p>
+
+          <button type="submit" class="w-full cursor-pointer bg-[#140804] dark:bg-primary-fixed text-white dark:text-on-primary-fixed p-4 rounded font-label-md uppercase tracking-[0.15em] hover:brightness-115 transition-all outline-none mt-4 shadow flex items-center justify-center gap-2">
+            <span>결제 및 주문</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Main Section Content -->
+    <main class="w-full mt-20">
+      
+      <!-- Hero Header Landing Section -->
+      <section class="relative h-[90vh] md:h-screen w-full flex items-center justify-center overflow-hidden">
+        
+        <!-- Large Zooming background -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[15s] ease-out scale-105 hover:scale-100" 
+             style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCO0rIU2mZb17jeRm-d9upkT3lJwFlks0z-guCGlFlYb-t-F1bZhfCtfSEOmVFwCCcvrmNYLOUl9lnWGjvajEz75nBjP6fWe5J0bZnWQP1vstkxXh7ES0MQ2qphTD5bzuAUXLgAx8d84e7nGYe-2JAE19qeOCq2pYPZQwdOUnxxxEOLjhj5O3inBYmOkqWAOfesRqiJIwgiFtgGB9IsNZPwgltPek0EAcfKBx7lZDb3o18F2xfRKlISZXquEemGLUL7ny2rzndtfCAL');">
+          <div class="absolute inset-0 bg-primary/25 dark:bg-[#140804]/50"></div>
+        </div>
+
+        <!-- Float Info -->
+        <div class="relative text-center z-10 px-margin-mobile max-w-4xl space-y-4">
+          <p class="font-body text-xs md:text-sm text-white/90 tracking-[0.4em] uppercase font-medium">A R T I S A N A L &nbsp; B R E W</p>
+          <h2 class="font-headline font-bold text-5xl md:text-7xl text-white tracking-[0.25em] uppercase leading-tight drop-shadow-sm select-none">LUMINA</h2>
+          <p class="font-body text-sm md:text-base text-white/80 tracking-[0.18em] uppercase italic font-light pt-4 border-t border-white/20 max-w-sm mx-auto">Tranquility in Every Sip</p>
+        </div>
+
+        <!-- Bounce down trigger element -->
+        <a href="#experience" class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 text-white/60 hover:text-white transition-colors duration-300 pointer-events-auto">
+          <span class="font-body text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
+          <span class="material-symbols-outlined text-[20px] animate-bounce">keyboard_arrow_down</span>
+        </a>
+      </section>
+
+      <!-- Brand Identity / Concept Section -->
+      <section id="experience" class="py-section-gap px-margin-mobile bg-surface dark:bg-zinc-950 text-center transition-colors">
+        <div class="max-w-4xl mx-auto space-y-10 reveal-on-scroll">
+          <div class="flex justify-center">
+            <span class="material-symbols-outlined text-primary dark:text-primary-fixed scale-[1.7] rotate-180">water_drop</span>
+          </div>
+          <h3 class="font-headline text-3xl md:text-4xl text-primary dark:text-primary-fixed font-bold leading-snug tracking-wide uppercase">THE LUMINA ETHOS</h3>
+          <p class="font-body text-base md:text-lg leading-relaxed text-on-surface-variant dark:text-zinc-300 font-light max-w-3xl mx-auto py-4">
+            일상 속의 번잡함을 걷어낸 고요한 공간,<br/>
+            장인의 집념으로 내린 에테리얼 커피,<br/>
+            그리고 당신이 온전히 감각하는 '나만의 시간'.<br/><br/>
+            루미나는 단순히 에스프레소를 추출하는 곳을 넘어,<br/>
+            빛과 나무, 그리고 정성 어린 한 잔을 매개로 마음의 호흡을 정돈하는 쉼표입니다.
+          </p>
+          <div class="w-24 h-px bg-outline-variant/40 mx-auto mt-12"></div>
+        </div>
+      </section>
+
+      <!-- Cafe Functional Menu Category Section -->
+      <section id="menu" class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low dark:bg-zinc-900/40 border-y border-outline-variant/15 transition-colors">
+        <div class="max-w-[1200px] mx-auto">
+          
+          <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-outline-variant/30 pb-6 mb-12 gap-6 reveal-on-scroll">
+            <div class="text-left space-y-1">
+              <span class="font-body text-xs text-secondary dark:text-secondary-fixed-dim uppercase tracking-[0.22em]">Curation</span>
+              <h3 class="font-headline font-bold text-3xl md:text-4xl text-primary dark:text-primary-fixed tracking-widest uppercase">OUR MENU</h3>
+            </div>
+
+            <!-- Dynamic Category Filter Links -->
+            <div class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-1">
+              <button class="font-label-sm text-label-sm uppercase text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed -translate-y-0.5 transition-all duration-300 pb-2 whitespace-nowrap menu-filter-btn" data-category="drinks">Drinks</button>
+              <button class="font-label-sm text-label-sm uppercase text-secondary hover:text-primary dark:text-secondary dark:hover:text-primary-fixed hover:-translate-y-0.5 transition-all duration-300 pb-2 border-b-2 border-transparent whitespace-nowrap menu-filter-btn" data-category="food">Food</button>
+              <button class="font-label-sm text-label-sm uppercase text-secondary hover:text-primary dark:text-secondary dark:hover:text-primary-fixed hover:-translate-y-0.5 transition-all duration-300 pb-2 border-b-2 border-transparent whitespace-nowrap menu-filter-btn" data-category="desserts">Desserts</button>
+            </div>
+          </div>
+
+          <!-- Menu Product Cards Catalog Grid overlay -->
+          <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 transition-all duration-500 ease-out transform">
+            <!-- Dynamic elements loaded via vanilla js in main.js -->
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Immersive Image Architectural & Lifestyle Gallery -->
+      <section id="gallery" class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface dark:bg-zinc-950 transition-colors">
+        <div class="max-w-[1200px] mx-auto reveal-on-scroll">
+          
+          <div class="text-center space-y-1 mb-16">
+            <span class="font-body text-xs text-secondary dark:text-secondary-fixed-dim uppercase tracking-[0.25em]">Atmosphere</span>
+            <h3 class="font-headline font-bold text-3xl md:text-4xl text-primary dark:text-primary-fixed tracking-widest uppercase">GALLERY</h3>
+            <div class="w-12 h-[2px] bg-primary dark:bg-primary-fixed mx-auto mt-4"></div>
+          </div>
+
+          <!-- Staggered Layout Grid structure -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-8 flex flex-col justify-between">
+              
+              <div class="aspect-[4/5] bg-zinc-850 overflow-hidden rounded-sm image-zoom-container group shadow">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" 
+                     data-alt="건축학적 미학이 어우러진 미니멀리즘 실내 인테리어 디자인. 햇살이 가득 내리쬐는 오픈 하프 돔 가벽과 원목 벤치." 
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7UsZfWqNylDNTU0_0oZHKnOBVeIhQkEknDp-hsVa1npjQ22LZXNoihG0oUvnXfFwIHcwqQWWaMiVMIL5f21LXxs392S9Kw098unQLVMs_-aKlSr1-8d8BfczXaFcQjXSeRPZ_LNvPCb3ME8Q31XxjFFRAXYFA_tQqO_NJ_i9uxtUeErMnRxymhRAAjTA8K-GIiXNwBMwxtCWcDtXMVif-_kfIbrdmNa48axspPbTU6vG4g3eGEWXKHuwJPcF_uw1o_6D-eK-DpmU4" />
+              </div>
+              
+              <div class="aspect-square bg-zinc-850 overflow-hidden rounded-sm image-zoom-container group shadow">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" 
+                     data-alt="매장에서 직접 세심하게 선별한 최고 품질의 유기농 로스팅 커피 빈 패키지 세팅." 
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL1CT0KSOZmD7XYfJDkWZ_1tQBVo6jTtycfm5r4oRvPOxGjrhV9OecXk7JU5oJBRG6860RhPl1m02dnFcjrywpq0MgmjiWk-4cnOk1gJ0e1WxcjyZpj71nXrAxGhFXBT7anFn4uQjiOrmZHouY3tKqD6DrRAoF2lXeVlnsRHNjC9AAbu6OuUclMDkYH3O_x-e9VnfJGn4vfY9Ng9LosRmI41F-yTDKpvUVbwM65EeYHDvm56zSyR0bcnpF90nbPu7M8OshEXLOkVYx" />
+              </div>
+
+            </div>
+            <div class="space-y-8 md:pt-24 flex flex-col justify-between">
+              
+              <div class="aspect-square bg-zinc-850 overflow-hidden rounded-sm image-zoom-container group shadow">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" 
+                     data-alt="정통 카푸치노 라떼아트를 정성스레 만들어 드리는 숙련된 바리스타 전문적인 손길." 
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjFuUEYiPvUCUJWUq8RNQ_mdt-YCWFWQ83lafY35tuZCgG6JLSCxU6vc0bn9ZyBDOojmYYeKqU9-6RV1Hcly32xvV4VGtTwN6kCEQpNlekg8CD6uKQmO5mqUgOqehsXCGf0Yoz_BQ3efDNgKqcnXm7M4h0UWV5U65QZ4wQiv0vWO43I9cx2_YLqEPoN9hhfcRcBbxCnirgi18Ccy7x4J__Qmw8zCtO6rs2SWXqv3HhR4ZoXxfeCrMd_QyToDKwIuPRZ4PMQkWxzTin" />
+              </div>
+              
+              <div class="aspect-[4/5] bg-zinc-850 overflow-hidden rounded-sm image-zoom-container group shadow">
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]" 
+                     data-alt="벨벳 암체어와 빈티지 원목 협탁, 마음을 편안하게 만드는 책 한 권과 드립커피 향이 어우러진 비밀 아늑 공간." 
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUxX0HrJYRrgjczA5af-UwkZlXIUj-7_kLOl4f6WJlbDK0BKOYeIloBwISM_Fs3P5MJNETiU7ndCwEEMHFkJtDcv8zwJ9lmQs7uWsAQWUAvro38KzFSIJOUX4WU_6VaaiZkhypBcte-g6mi1YQpf82xp7axgERJhUzrw9RSnVY5g0Fy7ejofTTtkbR8y2XjRmcRn6NCD0kSUf-u5kX6LmHsss0gw2yVzIblwQIlfKuwz2RCzxSh8zrrCdYkZOSTMK7gHuPrGaz0F8G" />
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Store Info Mapping & Visit Reservations -->
+      <section id="find-us" class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-highest dark:bg-zinc-900 border-t border-outline-variant/10 transition-colors">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center reveal-on-scroll">
+          
+          <!-- Stores details text -->
+          <div class="space-y-12 text-left">
+            <div>
+              <span class="font-body text-xs text-secondary dark:text-secondary-fixed-dim uppercase tracking-[0.25em]">Visit Sanctuary</span>
+              <h3 class="font-headline font-bold text-3xl md:text-4xl text-primary dark:text-primary-fixed tracking-widest uppercase mt-1">VISIT US</h3>
+              <p class="font-body text-base text-on-surface-variant dark:text-zinc-300 mt-4 leading-relaxed font-light">
+                서울 가로수 로데오 사잇길에 조용하게 마련된 복합 도서 문화 커피 공간입니다. 언제든 소중한 대인관계, 온전한 독서를 들고 루미나의 야외 가든과 북 라운지에 수장되세요.
+              </p>
+            </div>
+
+            <div class="space-y-6 font-body">
+              <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary dark:text-primary-fixed mt-1">schedule</span>
+                <div>
+                  <p class="font-label-sm text-xs uppercase tracking-widest mb-1 text-secondary dark:text-secondary-fixed-dim">Opening Hours</p>
+                  <p class="font-body text-sm font-semibold text-primary dark:text-primary-fixed">매일 평일/주말 10:00 AM - 10:00 PM</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary dark:text-primary-fixed mt-1">location_on</span>
+                <div>
+                  <p class="font-label-sm text-xs uppercase tracking-widest mb-1 text-secondary dark:text-secondary-fixed-dim">Address</p>
+                  <p class="font-body text-sm font-semibold text-primary dark:text-primary-fixed">서울시 강남구 도산대로 123-45 루미나 빌딩 1F</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-primary dark:text-primary-fixed mt-1">call</span>
+                <div>
+                  <p class="font-label-sm text-xs uppercase tracking-widest mb-1 text-secondary dark:text-secondary-fixed-dim">Contact</p>
+                  <p class="font-body text-sm font-semibold text-primary dark:text-primary-fixed">02-1234-5678</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking form launch -->
+            <button class="bg-primary dark:bg-primary-fixed text-on-primary dark:text-on-primary-fixed px-12 py-4.5 font-label-md uppercase tracking-[0.2em] hover:brightness-110 shadow-md active:scale-95 transition-all cursor-pointer rounded-sm flex items-center gap-3">
+              <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+              <span>Reserve Table</span>
+            </button>
+          </div>
+
+          <!-- Stylized Interactive Vector Directory Map container details -->
+          <div class="relative aspect-video lg:aspect-square bg-surface dark:bg-zinc-950 rounded border border-outline-variant/30 shadow-2xl overflow-hidden">
+            <!-- This Map element is dynamic rendered via vanilla js in main.js -->
+            <div data-location="Seoul, South Korea" class="w-full h-full"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Instagram/Social Section with Lightbox support -->
+      <section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface dark:bg-zinc-950 transition-colors">
+        <div class="max-w-[1200px] mx-auto reveal-on-scroll">
+          
+          <div class="text-center space-y-1 mb-16">
+            <span class="font-body text-xs text-secondary dark:text-secondary-fixed-dim uppercase tracking-[0.25em]">Social Journal</span>
+            <h3 class="font-headline font-bold text-3xl md:text-4xl text-primary dark:text-primary-fixed tracking-widest uppercase">INSTAGRAM</h3>
+            <p class="font-body text-xs text-secondary/70 tracking-[0.1em] font-medium pt-2 uppercase">@LUMINACAFE_OFFICIAL</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="aspect-square bg-zinc-850 rounded-sm overflow-hidden group relative shadow-md image-zoom-container cursor-pointer">
+              <img class="w-full h-full object-cover" 
+                   data-alt="매트한 머드 블랙 바 테이블 위에 묵직하게 보존된 깊은 풍미의 투샷 에스프레소 단독 샷." 
+                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjki-Eo93ywQ5vBwT0vWLXUWFoXPtfqQHLDpLrrP1Hnb5XH9Xo8jQB15lL0kAy_bxV2O81R2svlK1Ps5LaT7DpHgmiYQgwMKLyFLEG_ayfMlloyi1ga5z_Fsh3OToEmU9sKLhahM52bU-csNs-AeGK6f0dnt1D4lCKh9BF81YekjAXmknuT1hAvgvzimPGaYNlS3GaS5YEgWKS9e0NIXZCrfiy5wgKG-o4UwV0jn9x6AjrHQYzA5l7XwcnOIUD27aX10EyRtUGF3uc" />
+              <div class="absolute inset-0 bg-[#140804]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-3xl scale-90 group-hover:scale-100 transition-transform duration-300">favorite</span>
+              </div>
+            </div>
+
+            <div class="aspect-square bg-zinc-850 rounded-sm overflow-hidden group relative shadow-md image-zoom-container cursor-pointer">
+              <img class="w-full h-full object-cover" 
+                   data-alt="여유로운 주말 아침, 정성스럽게 브루잉한 글라스 피쳐 커피와 에센셜 문학 북 세틀러 서재." 
+                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd9j_tSoEYJE8kXnD4bkY90l0mLkhC3sKMtvTwcVZS453Pz0ebfg60thUzMjF_NhClkab-12rzro9MPI1qrincMU3nmh_m_Lqqeb6bWtfMNyF3H5FHipaxgurTFpF2A3Dln-sOjAU5xOcMbizBhGruiVP0Kk2zuuOUdSn0J200oXI0GOBL1ADIvTzGWNIzvkgzvNsvUHqSMf4LkJGK3Nj42X491l5N63Src5Us8R59yUJvlTj6F3YzEgIO5HQ6WWo94f8vIGykPXub" />
+              <div class="absolute inset-0 bg-[#140804]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-3xl scale-90 group-hover:scale-100 transition-transform duration-300">favorite</span>
+              </div>
+            </div>
+
+            <div class="aspect-square bg-zinc-850 rounded-sm overflow-hidden group relative shadow-md image-zoom-container cursor-pointer">
+              <img class="w-full h-full object-cover" 
+                   data-alt="황금색 일몰 해질녁 햇빛이 가득 통유리창으로 길게 넘어오는 고즈넉한 에스프레소 테이블석 전경." 
+                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhZkRh-T0SWM4qvG6HRFnbZJs0cy-zm9hC29JYZwkNuDiHJTYQwGmfw4NH4MVZWJlzufbI5DLw43fHLsOOUzxyVmxwrHkXrOcviSCNGZUb7H7R8RVKqlKpnmSBgcgqogG-1xo5q0pdWt2MTmCyaE9Rv9q1y0xRP7MAMw9TK4QngqOv4lnlfsjL_-ASSiYVZCBBMllpP9ft2GFTka7S5xhotrFzWkXu86D8ZV-TM9lSSwNsnVd--b7Rgcp7gjd91O6hWE3sTOwtMLdl" />
+              <div class="absolute inset-0 bg-[#140804]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-3xl scale-90 group-hover:scale-100 transition-transform duration-300">favorite</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer Bar overlay with newsletters subscription -->
+    <footer class="w-full bg-surface-container-lowest dark:bg-zinc-950 border-t border-outline-variant/20 py-20 px-margin-mobile md:px-margin-desktop transition-colors">
+      <div class="max-w-[1200px] mx-auto flex flex-col items-center justify-center text-center space-y-12">
+        
+        <!-- Newsletter Signup -->
+        <div class="max-w-md w-full space-y-4">
+          <h4 class="font-headline font-semibold text-lg text-primary dark:text-primary-fixed uppercase tracking-wider">ETHICAL NEWSLETTER</h4>
+          <p class="font-body text-xs text-secondary dark:text-secondary-fixed-dim leading-relaxed">
+            루미나의 바리스타가 엄선하여 기고하는 위클리 싱글오리진 브루잉 비법과 프라이빗 살롱 이벤트 가이드를 메일함으로 받아보세요.
+          </p>
+          <form id="newsletter-form" class="flex gap-2 pt-2">
+            <input type="email" required placeholder="example@email.com" class="flex-1 bg-surface-container dark:bg-zinc-900 border border-outline-variant/60 rounded px-4 py-2.5 text-xs text-primary dark:text-primary-fixed focus:outline-none focus:border-primary dark:focus:border-primary-fixed font-body">
+            <button type="submit" class="bg-primary dark:bg-primary-fixed text-on-primary dark:text-on-primary-fixed rounded px-6 py-2.5 font-label-md uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all text-xs cursor-pointer shadow">Subscribe</button>
+          </form>
+        </div>
+
+        <div class="w-24 h-[1px] bg-outline-variant/30"></div>
+
+        <!-- Footer Logo -->
+        <div class="space-y-4">
+          <h3 class="font-headline font-extrabold text-2xl tracking-[0.22em] text-primary dark:text-primary-fixed uppercase">LUMINA CAFE</h3>
+          <p class="font-body text-xs text-secondary/70 tracking-[0.14em] uppercase">Artisanal Brew & Tranquility</p>
+        </div>
+
+        <!-- Sitemap links -->
+        <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-xs font-body tracking-wider uppercase">
+          <a href="#" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed transition-colors">Privacy Policy</a>
+          <a href="#" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed transition-colors">Terms of Service</a>
+          <a href="#" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed transition-colors">Brew Hand-Guide</a>
+          <a href="#find-us" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed transition-colors">Location Directions</a>
+        </div>
+
+        <!-- Copyright -->
+        <div class="space-y-1 text-[11px] font-body text-secondary">
+          <p>© 2026 LUMINA CAFE COOP. ALL RIGHTS RESERVED.</p>
+          <p class="text-[10px] opacity-60">Architectural elements designed by Lumina Minimalisms.</p>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- Comprehensive interactive javascript -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
